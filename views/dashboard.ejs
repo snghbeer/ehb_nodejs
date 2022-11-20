@@ -1,0 +1,170 @@
+<div class="input-group">
+    <div class="form-outline">
+        <input type="search" id="search_bar" class="form-control search_bar" />
+        <label class="form-label" for="form1">Search by product name</label>
+    </div>
+    <button type="button" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+    </button>
+</div>
+<select class="form-select sortPicker" id="sortdropdown" aria-label="Default select example">
+    <option selected>Sort by</option>
+    <option value="1">Product name</option>
+    <option value="2">Price (Low to high)</option>
+    <option value="3">Price: (High to low)</option>
+</select>
+<br />
+<div class="container py-3">
+    <table class="table table-hover text-nowrap">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Product name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+            $('#search_bar').on('change', function searchProductByName() {
+                const itContains = (a_string, some_string) => {
+                    return (a_string.toLowerCase().startsWith(some_string.toLowerCase()))
+                }
+
+                const categories = JSON.parse(sessionStorage.getItem("categories"));
+                const prods = JSON.parse(sessionStorage.getItem("products"));
+
+                const objects = prods.filter((item) => itContains(item.name, this.value))
+                $('tbody').html("");
+                if (this.value !== "") {
+                    $.each(objects, function (key, item) {
+                        $('tbody').append(`            
+                                <tr>
+                                    <th scope="row">Item ${key + 1}</th>
+                                    <td>${item.name}</td>
+                                    <td>${categories.find(e => e._id == item.category).name}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.description}</td>
+                                </tr>`);
+                    })
+                }
+                else {
+                    $.each(prods, function (key, item) {
+                        $('tbody').append(`            
+                                <tr>
+                                    <th scope="row">Item ${key + 1}</th>
+                                    <td>${item.name}</td>
+                                    <td>${categories.find(e => e._id == item.category).name}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.description}</td>
+                                </tr>`);
+                    })
+                }
+            });
+
+            $('#sortdropdown').on('change', function sortBy() {
+                const categories = JSON.parse(sessionStorage.getItem("categories"));
+                const prods = JSON.parse(sessionStorage.getItem("products"));
+
+                switch (this.value) {
+                    case "1":
+                        prods.sort((first, second) => {
+                            if (first.name < second.name) {
+                                return -1;
+                            }
+                        })
+                        break;
+                    case "2":
+                        prods.sort((first, second) => {
+                                if (first.price < second.price) {
+                                    return -1;
+                                }
+                            })
+                        break;
+                    case "3":
+                        prods.sort((first, second) => {
+                                if (first.price > second.price) {
+                                    return -1;
+                                }
+                            })
+                        break;
+                    default:
+                    // code block
+                }
+                $('tbody').html("");
+                $.each(prods, function (key, item) {
+                        $('tbody').append(`            
+                                <tr>
+                                    <th scope="row">Item ${key + 1}</th>
+                                    <td>${item.name}</td>
+                                    <td>${categories.find(e => e._id == item.category).name}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.description}</td>
+                                </tr>`);
+                    })
+            })
+
+            fetchAllProducts();
+
+            function fetchAllProducts(offset, limit) {
+                const data = {
+                    offset: offset,
+                    limit: limit
+                }
+                getCategories(function (categories) {
+                    const url = "<%= productUrl %>"
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        headers: {
+                            'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+                            'Access-Control-Allow-Origin': '*',
+                        },
+                        success: function (response) {
+                            sessionStorage.setItem("products", JSON.stringify(response.products))
+                            $('tbody').html("");
+                            $.each(response.products, function (key, item) {
+                                $('tbody').append(`            
+                                <tr>
+                                    <th scope="row">Item ${key + 1}</th>
+                                    <td>${item.name}</td>
+                                    <td>${categories.find(e => e._id == item.category).name}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.description}</td>
+                                </tr>`);
+                            })
+                        },
+                        error: function (response) {
+                            console.log(response.status)
+                        }
+                    });
+                });
+
+            }
+
+            function getCategories(callback) {
+                const url = "<%= catUrl %>"
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
+                        'Access-Control-Allow-Origin': '*',
+                    },
+                    success: function (response) {
+                        sessionStorage.setItem("categories", JSON.stringify(response.categories))
+                        callback(response.categories)
+                    },
+                    error: function (response) {
+                        console.log(response.status)
+                    }
+                });
+            }
+        })
+
+    </script>
+</div>

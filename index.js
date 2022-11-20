@@ -4,13 +4,25 @@ const express = require('express');
 
 const homeRouter = require('./routes/router');
 const app = express();
+const path = require('path');
+const cors = require('cors');
 
 const dbURI = process.env.dbURI;
 const PORT = process.env.PORT || 3000 ;
 
-//app.use(cookieParser())
-app.use('/api', homeRouter);
+//Server setup
+app.set('views', path.join(__dirname, 'views'));// all html templates will be rendered from views folder
+app.set('view engine', 'ejs');
 
+//CSS setup
+//app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
+app.use(cors({
+    credentials: true,
+    origin: true
+}));
+
+app.use('/api', homeRouter);
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)
 })

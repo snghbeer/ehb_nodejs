@@ -20,12 +20,12 @@ async function addNewCategory(catName, dontClose){
     return aCategory;
 }
 
-async function updateCategory(newData){
+async function updateCategory(id, newData){
     var aCategory;
     await mongoose.connect(dbURI, {ssl:true})
     .then(async() =>{
-        console.log("Updating product with ID: "+ id)
-        aCategory = await Category.findOneAndUpdate({name: category}, newData, {new: true}).exec();
+        console.log("Updating category with ID: "+ id)
+        aCategory = await Category.findByIdAndUpdate(id, newData, {new: true});
         mongoose.connection.close()
     })
     return aCategory;
@@ -67,6 +67,27 @@ async function getProducts(category){
         mongoose.connection.close()
     })
     return prods.products;
+}
+
+async function getAllProductsWithLimitOffset(limit, offset){
+    var prods;
+    await mongoose.connect(dbURI, {ssl:true})
+    .then(async() =>{
+        prods = await Product.find().skip(offset).limit(limit).exec()
+        mongoose.connection.close()
+    })
+    return prods;
+}
+
+async function getAllProducts(){
+    var prods;
+    await mongoose.connect(dbURI, {ssl:true})
+    .then(async() =>{
+        prods = await Product.find().exec()
+        mongoose.connection.close()
+    })
+    //console.log(prods)
+    return prods;
 }
 
 async function addNewProduct(data){
@@ -125,8 +146,7 @@ async function updateProduct(id, newData){
     await mongoose.connect(dbURI, {ssl:true})
     .then(async() =>{
         console.log("Fetching product with ID: "+ id)
-        prod = await Product.findByIdAndUpdate(id, newData, {new: true}).exec();
-        //console.log(prods.products)
+        prod = await Product.findByIdAndUpdate(id, newData, {new: true});
         mongoose.connection.close()
     })
     return prod;
@@ -152,6 +172,8 @@ module.exports = {
 
     addNewProduct: addNewProduct,
     getProducts: getProducts,
+    getAllProducts: getAllProducts,
+    getAllProductsWithLimitOffset: getAllProductsWithLimitOffset,
     getProduct: getProduct,
     updateProduct: updateProduct,
     deleteProduct: deleteProduct,
