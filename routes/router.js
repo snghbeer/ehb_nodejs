@@ -145,11 +145,6 @@ homeRouter.group("/v1", (homeRouter) => {
     });
 
     homeRouter.group("/product", (homeRouter) => {
-        //todo: add limit & offset of returning values for this endpoint
-        //db.collection.find().skip(20).limit(10) => 20 as offset, limit 10
-
-        //todo: add possibility to query based on one of the fields for this endpoint
-        //search fields: name, price (range), category
         homeRouter.get("/all", authenticateToken,  async function(req, res){
             const products = await getAllProducts();
             if (products) res.json({products: products})
