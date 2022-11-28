@@ -18,7 +18,7 @@ async function registerUser(data) {
 async function fetchUser(username, password, callback) {
   await mongoose.connect(dbURI, { ssl: true }).then(async () => {
     // fetch the user and test password verification
-    await User.findOne({username: username}).then(function(user) {
+    await User.findOne({username: username}).then(function(user) { //once user is found, try matching passwords
         user.comparePassword(password, function(matchError, isMatch) {
             if (matchError) {
               callback({error: true})
@@ -26,7 +26,7 @@ async function fetchUser(username, password, callback) {
             } else if (!isMatch) {
               callback({error: true})
             } else {
-              callback({error: false})
+              callback({error: false}) //passwords match
             }
           })
       })

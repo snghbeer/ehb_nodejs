@@ -24,11 +24,11 @@ app.use(cors({
     origin: true
 }));
 
-app.use('/api', homeRouter);
+app.use('/api', homeRouter); //uses router
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)
 })
 
 app.get('/', async function (req, res) {
-    res.send("Welcome to home page")
+    res.send("You should got to /api/v1/")
   })

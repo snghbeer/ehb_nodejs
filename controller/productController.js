@@ -73,7 +73,7 @@ async function getAllProductsWithLimitOffset(limit, offset){
     var prods;
     await mongoose.connect(dbURI, {ssl:true})
     .then(async() =>{
-        prods = await Product.find().skip(offset).limit(limit).exec()
+        prods = await Product.find().skip(offset).limit(limit).exec() //skip "offset" positions, and take "limit" records 
         mongoose.connection.close()
     })
     return prods;
@@ -165,11 +165,13 @@ async function deleteProduct(id){
 }
 
 module.exports = { 
+    //category functions
     addNewCategory: addNewCategory,
     updateCategory: updateCategory,
     deleteCategory: deleteCategory,
     getCategories: getCategories,
 
+    //product functions
     addNewProduct: addNewProduct,
     getProducts: getProducts,
     getAllProducts: getAllProducts,

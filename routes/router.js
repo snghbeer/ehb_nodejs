@@ -16,12 +16,12 @@ const PORT = process.env.PORT || 3000 ;
 //for authenticated users
 function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = authHeader && authHeader.split(' ')[1] //because Auhtorization header contains "Bearer tokenXYZ", so we split string and only take the 2nd part of string
     if (token == null) return res.sendStatus(401)
   
-    jwt.verify(token, process.env.privateKey, (err) => {
+    jwt.verify(token, process.env.privateKey, (err) => { //verifies if JWT token is valid or not
       if (err) return res.sendStatus(403)
-      next()
+      next() //if valid, request can proceed
     })
 }
 
@@ -31,7 +31,7 @@ homeRouter.group("/v1", (homeRouter) => {
     });
 
     //this route is used when a users logs in succesfuly
-    homeRouter.get("/getToken", function(req, res){
+    homeRouter.get("/getToken", function(req, res){ //should be a private route but is made public for testing purposes on postman
         const url = req.baseUrl + "/dashboard"
         var token = jwt.sign({ foo: process.env.payload }, process.env.privateKey, { expiresIn: '3600s'}); //token will expire after x seconds
         res.json({token: token, redirect: url})
@@ -67,7 +67,6 @@ homeRouter.group("/v1", (homeRouter) => {
         const registerUrl = req.baseUrl + "/register"
         const loginrUrl = req.baseUrl + "/login"
 
-        //const totalURL = req.hostname + `:${PORT}` + registerUrl
         res.render("auth/register", { registerUrl: registerUrl, loginUrl: loginrUrl })
     });
 
@@ -88,6 +87,7 @@ homeRouter.group("/v1", (homeRouter) => {
         }else res.status(403).send("Something went wrong")
     });
 
+    //Category endpoints
     homeRouter.group("/category", (homeRouter) => {
         homeRouter.post("/new", jsonParser, 
         body('name').isString().not().isEmpty(), //validation
@@ -151,6 +151,7 @@ homeRouter.group("/v1", (homeRouter) => {
         });
     });
 
+    //Product endpoints
     homeRouter.group("/product", (homeRouter) => {
         homeRouter.get("/all", authenticateToken,  async function(req, res){
             const products = await getAllProducts();

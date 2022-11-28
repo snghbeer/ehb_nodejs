@@ -30,6 +30,8 @@
     </table>
     <script>
 
+        //assumes there is a list of products stored in session storage
+        //search a product by name in session storage
         $(document).ready(function () {
             $('#search_bar').on('change', function searchProductByName() {
                 const itContains = (a_string, some_string) => {
@@ -67,26 +69,27 @@
                 }
             });
 
+            //sort product by...
             $('#sortdropdown').on('change', function sortBy() {
                 const categories = JSON.parse(sessionStorage.getItem("categories"));
                 const prods = JSON.parse(sessionStorage.getItem("products"));
 
                 switch (this.value) {
-                    case "1":
+                    case "1": //by name alphabetically
                         prods.sort((first, second) => {
                             if (first.name < second.name) {
                                 return -1;
                             }
                         })
                         break;
-                    case "2":
+                    case "2": //price low to high
                         prods.sort((first, second) => {
                                 if (first.price < second.price) {
                                     return -1;
                                 }
                             })
                         break;
-                    case "3":
+                    case "3": //price high to low
                         prods.sort((first, second) => {
                                 if (first.price > second.price) {
                                     return -1;
@@ -97,6 +100,7 @@
                     // code block
                 }
                 $('tbody').html("");
+                //maps the new sorted array of products in the table
                 $.each(prods, function (key, item) {
                         $('tbody').append(`            
                                 <tr>
@@ -117,6 +121,7 @@
                     offset: offset,
                     limit: limit
                 }
+                //callback function will fetch all products after all categories have been fetched
                 getCategories(function (categories) {
                     const url = "<%= productUrl %>"
                     $.ajax({
@@ -129,12 +134,14 @@
                         success: function (response) {
                             sessionStorage.setItem("products", JSON.stringify(response.products))
                             $('tbody').html("");
+
+                            //we reuse the categories to map each category name into the table for each product
                             $.each(response.products, function (key, item) {
                                 $('tbody').append(`            
                                 <tr>
                                     <th scope="row">Item ${key + 1}</th>
                                     <td>${item.name}</td>
-                                    <td>${categories.find(e => e._id == item.category).name}</td>
+                                    <td>${categories.find(e => e._id == item.category).name}</td> 
                                     <td>${item.price}</td>
                                     <td>${item.description}</td>
                                 </tr>`);
@@ -148,6 +155,7 @@
 
             }
 
+            //fetch request function that takes a callback function as argument so we can do something with result of the fetch request
             function getCategories(callback) {
                 const url = "<%= catUrl %>"
                 $.ajax({
