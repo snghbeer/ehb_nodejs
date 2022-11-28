@@ -3,20 +3,19 @@ NodeJS project:
 It is recommended to use postman for most endpoints
 
 Authentication (Postman not needed for login and register):
-*login: /api/v1/login
-*register: /api/v1/register
-*getToken: /api/v1/getToken (is automatically called when login is succesful)
+* login: /api/v1/login
+* register: /api/v1/register
+* getToken: /api/v1/getToken (is automatically called when login is succesful)
 
 Endpoints requiring users to be authenticated (using JWT token):
-*/api/v1/dashboard (is a redirection after succesful login)
+* /api/v1/dashboard (is a redirection after succesful login)
 
 Endpoints requiring a token:
-*get product for a category: /:cat/products with :cat a category name
-*get all products: /api/v1/product/all 
+* get product for a category: /:cat/products with :cat a category name
+* get all products: /api/v1/product/all 
 
 Get all categories:
-*/api/v1/category/all
-
+* /api/v1/category/all
 
 Sources checked: 
 
