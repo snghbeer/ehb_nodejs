@@ -12,6 +12,7 @@ var jsonParser = bodyParser.json()
 const homeRouter = express.Router()
 const PORT = process.env.PORT || 3000 ;
 
+//MIDDLEWARE function
 //for authenticated users
 function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization
@@ -71,14 +72,20 @@ homeRouter.group("/v1", (homeRouter) => {
     });
 
     homeRouter.post("/register", jsonParser, async function(req, res){
+        const loginrUrl = req.baseUrl + "/login"
         const data = req.body;
         const psw = data.password;
         const cpsw = data.cpassword;
         if(psw === cpsw){
-            const aUser = await registerUser(data)
-            if (aUser) res.status(200).send("user registered succesfully!")
-            else res.status(404).send("Something went wrong")
-        }else res.status(404).send("Something went wrong")
+            try{
+                const aUser = await registerUser(data)
+                if (aUser) res.status(200).send("User registered succesfully!")
+                else res.status(404).send("Something went wrong")
+            }
+            catch(err){
+                res.status(400).send(err._message)
+            }
+        }else res.status(403).send("Something went wrong")
     });
 
     homeRouter.group("/category", (homeRouter) => {
@@ -152,6 +159,8 @@ homeRouter.group("/v1", (homeRouter) => {
         })
 
         
+        //Endpoint to return values with limit & offset
+        //optionally uses middleware -> uncomment to use
         homeRouter.get("/take", /*authenticateToken,*/ async function(req, res){
             let offset = req.query.offset || 0;
             let limit = req.query.limit || 2;

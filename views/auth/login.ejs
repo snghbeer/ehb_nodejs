@@ -22,7 +22,7 @@
               <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
 
               <button class="btn btn-outline-light btn-lg px-5" onclick="connect()">Login</button>
-              <button class="btn btn-outline-light btn-lg px-5" onclick="test()">test</button>
+              <button class="btn btn-outline-light btn-lg px-5" onclick="login()">Login with token</button>
 
             </div>
             <div>
@@ -37,9 +37,24 @@
     </div>
   </div>
   <script>
-    function test(){
+    //works if there is a token stored in session storage
+    function login(){
       const token = sessionStorage.getItem("token")
-      console.log(token)
+      $.ajax({
+            type: "GET",
+            url: '/api/v1/dashboard',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Access-Control-Allow-Origin': '*',
+            },
+            success: function (response) {
+              $('.container').html("");
+              $('.container').append(response);
+            },
+            error: function (response) {
+              console.log(response.statusText)
+            }
+          });
     }
 
     function connect() {
@@ -59,11 +74,10 @@
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
+        //Once logged in, saves token in session storage for further use
         success: function (response) {
           console.log("User succesfuly logged in!")
           sessionStorage.setItem("token", response.token);
-          //location.hostname = "localhost:3000/" + response.redirect
-          //location.href(response.redirect);
           $.ajax({
             type: "GET",
             url: response.redirect,

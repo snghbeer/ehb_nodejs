@@ -10,13 +10,15 @@ const cors = require('cors');
 const dbURI = process.env.dbURI;
 const PORT = process.env.PORT || 3000 ;
 
-//Server setup
+//Views setup
 app.set('views', path.join(__dirname, 'views'));// all html templates will be rendered from views folder
 app.set('view engine', 'ejs');
 
 //CSS setup
-//app.use(express.static(__dirname + '/public'));
 app.use(express.static('public'));
+
+//Cors middleware
+//added just in case, because I ran into a cors error
 app.use(cors({
     credentials: true,
     origin: true
