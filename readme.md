@@ -1,4 +1,4 @@
-NodeJS project:
+## NodeJS project readme:
 
 It is recommended to use postman for most endpoints
 
@@ -19,19 +19,22 @@ Get all categories:
 
 Sources checked: 
 
-Jquery/Ajax: https://stackoverflow.com/questions/9269265/ajax-jquery-simple-get-request
+[Jquery/Ajax](https://stackoverflow.com/questions/9269265/ajax-jquery-simple-get-request)
 
-Mongoose: https://mongoosejs.com/docs/models.html
+[Mongoose](https://mongoosejs.com/docs/models.html) 
 
+[ExpressJs](https://mongoosejs.com/docs/models.html) 
 https://expressjs.com/en/guide/using-middleware.html
 
-https://stackoverflow.com/questions/38894102/grouping-routes-in-express (npm express-group-routes)
+[Grouping routes in EpxressJs](https://stackoverflow.com/questions/38894102/grouping-routes-in-express) 
 
-https://ejs.co/ (documentations for rendering html like a blade template)
+(Documentation for rendering html pages like blade templates)
+[EJS](https://ejs.co/) 
 
-Session storage: https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
-Session token (JWT): https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
+[Session storage](https://www.w3schools.com/jsref/prop_win_sessionstorage.asp) 
 
-login/register form: https://mdbootstrap.com/docs/standard/extended/login/#section-6
+[Session token (JWT)](https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs) 
 
-GIT repo: https://github.com/snghbeer/ehb_nodejs
+[Login/Register form](https://mdbootstrap.com/docs/standard/extended/login/#section-6)  
+
+[GIT repo](https://github.com/snghbeer/ehb_nodejs) 
