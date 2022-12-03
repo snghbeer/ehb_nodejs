@@ -18,8 +18,9 @@
 * /api/v1/category/all
 
 #### Post requests body examples:
-* https://imgur.com/ANn3Rux
-* https://imgur.com/86dNPRH
+![Adding category JSON body](https://user-images.githubusercontent.com/56880412/205454830-318228b7-cbf1-4a66-9a5d-c82dc6a7ca0a.png)
+![Add product JSON body](https://user-images.githubusercontent.com/56880412/205454872-3d0d4a78-26bc-4220-8c0a-0061ad0dfd0d.png)
+
 
 ### Sources checked: 
 
