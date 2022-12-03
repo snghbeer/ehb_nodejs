@@ -17,6 +17,12 @@
 #### Get all categories:
 * /api/v1/category/all
 
+#### Post requests body examples:
+![Add category](https://imgur.com/ANn3Rux)
+![Add product](https://imgur.com/86dNPRH)
+
+
+
 ### Sources checked: 
 
 * [Jquery/Ajax](https://stackoverflow.com/questions/9269265/ajax-jquery-simple-get-request)
