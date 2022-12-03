@@ -18,8 +18,8 @@
 * /api/v1/category/all
 
 #### Post requests body examples:
-<img src="https://imgur.com/ANn3Rux" width="350" title="Add category">
-<img src="https://imgur.com/86dNPRH" width="350" title="Add product">
+* https://imgur.com/ANn3Rux
+* https://imgur.com/86dNPRH
 
 ### Sources checked: 
 
