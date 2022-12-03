@@ -34,7 +34,7 @@ homeRouter.group("/v1", (homeRouter) => {
     homeRouter.get("/getToken", function(req, res){ //should be a private route but is made public for testing purposes on postman
         const url = req.baseUrl + "/dashboard"
         var token = jwt.sign({ foo: process.env.payload }, process.env.privateKey, { expiresIn: '3600s'}); //token will expire after x seconds
-        res.json({token: token, redirect: url})
+        res.json({token: token, redirect: url}) //returns redirect link for authenticated users
     });
 
     //route with middleware using a jwt token
@@ -158,10 +158,10 @@ homeRouter.group("/v1", (homeRouter) => {
             if (products) res.json({products: products})
             else res.status(404).send("Not found")
         })
-
         
         //Endpoint to return values with limit & offset
         //optionally uses middleware -> uncomment to use
+        //e.g., http://localhost:3000/api/v1/product/take?offset=2&limit=2
         homeRouter.get("/take", /*authenticateToken,*/ async function(req, res){
             let offset = req.query.offset || 0;
             let limit = req.query.limit || 2;

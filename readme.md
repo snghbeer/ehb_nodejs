@@ -20,7 +20,9 @@
 ### Sources checked: 
 
 * [Jquery/Ajax](https://stackoverflow.com/questions/9269265/ajax-jquery-simple-get-request)
-* [Mongoose](https://mongoosejs.com/docs/models.html) 
+* [Mongoose](https://mongoosejs.com/docs/models.html)
+* [Mongoose authentication](https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1)
+* [Mongoose one-to-many (a category has many products)](https://stackoverflow.com/questions/34985846/mongoose-document-references-with-a-one-to-many-relationship)
 * [ExpressJs](https://expressjs.com/en/guide/using-middleware.html) 
 * [Grouping routes in EpxressJs](https://stackoverflow.com/questions/38894102/grouping-routes-in-express) 
 * [EJS for rendering html like blade templates](https://ejs.co/) 
